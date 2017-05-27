@@ -6,16 +6,16 @@
 #include <cmath>
 using namespace std;
 
-#define ORIGINALFILENAME ".\\data\\slow_up.txt"
-#define COMPRESSFILENAME ".\\data\\slow_up(2,4).txt"
+#define ORIGINALFILENAME ".\\data\\real_7752.txt"
+#define COMPRESSFILENAME ".\\data\\real_7752(2,4).txt"
 
-float original_data_array[1000];
+float original_data_array[10000];
 int original_data_quantity=0;
 
-string compress_data_array[1000];
+string compress_data_array[10000];
 int compress_data_quantity=0;
 
-float reduction_array[1000];
+float reduction_array[10000];
 int reduction_data_quantity=0;
 
 const int kMeanQuantity=2;
@@ -113,12 +113,14 @@ float SymbolToFloat(char symbol,int valueStandard){
 
 }
 void ErrorRate(){
-    for(int i=1;i<=reduction_data_quantity;i++){
+    for(int i=1;i<=reduction_data_quantity-2;i++){
         error_rate=error_rate+abs(original_data_array[i]-reduction_array[i]);
-        cout<<"original_data_array:"<<original_data_array[i]<<endl;
+        /*cout<<"original_data_array:"<<original_data_array[i]<<endl;
         cout<<"reduction_array:"<<reduction_array[i]<<endl;
-        cout<<"------------------"<<endl;
+        cout<<"------------------"<<endl;*/
     }
 
-    cout<<"error:"<<error_rate<<endl;
+    cout<<"this error:"<<error_rate<<endl;
+    cout<<"this reduction_data_quantity:"<<reduction_data_quantity<<endl;
+    cout<<"this original_data_quantity:"<<original_data_quantity<<endl;
 }

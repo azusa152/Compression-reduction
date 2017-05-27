@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1495863129 source:c:\users\azusa\documents\github\compression reduction\main.cpp
+1495865843 source:c:\users\azusa\documents\github\compression reduction\main.cpp
 	<iostream>
 	<fstream>
 	<sstream>
