@@ -4,10 +4,13 @@
 #include <string>
 #include <iomanip>
 #include <cmath>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 using namespace std;
 
-#define ORIGINALFILENAME ".\\data\\real_7752.txt"
-#define COMPRESSFILENAME ".\\data\\real_7752(2,4).txt"
+#define ORIGINALFILENAME ".\\data\\real.txt"
+#define COMPRESSFILENAME ".\\data\\real(2,4).txt"
 
 float original_data_array[10000];
 int original_data_quantity=0;
@@ -22,6 +25,8 @@ const int kMeanQuantity=2;
 const int kGroupQuantity=4;
 
 float error_rate=0;
+const float kDataMissRate=0.1;
+
 
 const double kSAXRange=0.5;
 
@@ -36,6 +41,7 @@ int main()
     InputData();
     SAXReduction();
     ErrorRate();
+
 
     return 0;
 }
@@ -63,21 +69,45 @@ void InputData(){
 void SAXReduction(){
 
     float valueStandard=0;
+    int randomNumber;
+    srand(time(NULL));
+
     for(int i=1;i<=compress_data_quantity;i++){
+
+            randomNumber=(rand()%1000)+1;
+
             stringstream ss;
             ss<<compress_data_array[i];
             float v;
             ss>>v;
 
-            if(v!=0){
-                Reduction(v);
-                valueStandard=v;
+            if(v!=0){// ¼Æ¦r
+                if (randomNumber>(((1-kDataMissRate)*(1-kDataMissRate))*1000)){
+                    Reduction(0);
+                    for(int j=2; j<=kGroupQuantity;j++){
+                        Reduction(0);
+                        i++;
+                    }
+                }
+
+                else{
+                    Reduction(v);
+                    valueStandard=v;
+                }
             }
 
             else{
+
+                if (randomNumber>((1-kDataMissRate)*1000)){
+                    Reduction(0);
+                }
+                else{
                 string a=compress_data_array[i];
                 const char *c=a.c_str();
                 Reduction(SymbolToFloat(c[0],valueStandard));
+                }
+
+
 
             }
 
@@ -87,6 +117,7 @@ void Reduction(float value){
     for(int i=0;i<kMeanQuantity;i++){
     reduction_data_quantity++;
     reduction_array[reduction_data_quantity]=value;
+
     }
 
 
@@ -115,9 +146,8 @@ float SymbolToFloat(char symbol,int valueStandard){
 void ErrorRate(){
     for(int i=1;i<=reduction_data_quantity-2;i++){
         error_rate=error_rate+abs(original_data_array[i]-reduction_array[i]);
-        /*cout<<"original_data_array:"<<original_data_array[i]<<endl;
-        cout<<"reduction_array:"<<reduction_array[i]<<endl;
-        cout<<"------------------"<<endl;*/
+        cout<<reduction_array[i]<<endl;
+
     }
 
     cout<<"this error:"<<error_rate<<endl;

@@ -1,9 +1,12 @@
 # depslib dependency file v1.0
-1495865843 source:c:\users\azusa\documents\github\compression reduction\main.cpp
+1496331005 source:c:\users\azusa\documents\github\compression reduction\main.cpp
 	<iostream>
 	<fstream>
 	<sstream>
 	<string>
 	<iomanip>
 	<cmath>
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
 
