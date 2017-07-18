@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1496331005 source:c:\users\azusa\documents\github\compression reduction\main.cpp
+1496638803 source:c:\users\azusa\documents\github\data_decompression\main.cpp
 	<iostream>
 	<fstream>
 	<sstream>
@@ -9,4 +9,5 @@
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
+	<windows.h>
 

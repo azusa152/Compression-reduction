@@ -7,10 +7,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <windows.h>
 using namespace std;
 
-#define ORIGINALFILENAME ".\\data\\real.txt"
-#define COMPRESSFILENAME ".\\data\\real(2,4).txt"
+#define ORIGINALFILENAME ".\\data\\slow_up&down.txt"
+#define COMPRESSFILENAME ".\\data\\slow_up&down(4,8).txt"
+
+const int kMeanQuantity=4;
+const int kGroupQuantity=8;
+const float kDataMissRate=0;
+
+
 
 float original_data_array[10000];
 int original_data_quantity=0;
@@ -21,13 +28,11 @@ int compress_data_quantity=0;
 float reduction_array[10000];
 int reduction_data_quantity=0;
 
-const int kMeanQuantity=2;
-const int kGroupQuantity=4;
+
 
 float error_rate=0;
-const float kDataMissRate=0.1;
 
-
+double test_score=0;
 const double kSAXRange=0.5;
 
 void InputData();
@@ -41,6 +46,14 @@ int main()
     InputData();
     SAXReduction();
     ErrorRate();
+
+  /*  for(int i=1;i<100;i++){
+    SAXReduction();
+    ErrorRate();
+    Sleep((rand()%100)+1);
+    }
+    cout<<"total error:"<<error_rate/100<<endl;
+*/
 
 
     return 0;
@@ -63,11 +76,12 @@ void InputData(){
         g >> compress_data_array[compress_data_quantity];
 
     }
+
     g.close();
 }
 
 void SAXReduction(){
-
+    reduction_data_quantity=0;
     float valueStandard=0;
     int randomNumber;
     srand(time(NULL));
@@ -82,7 +96,7 @@ void SAXReduction(){
             ss>>v;
 
             if(v!=0){// ¼Æ¦r
-                if (randomNumber>(((1-kDataMissRate)*(1-kDataMissRate))*1000)){
+                if (randomNumber>(((1-kDataMissRate)*(1-kDataMissRate)*(1-kDataMissRate))*1000)){
                     Reduction(0);
                     for(int j=2; j<=kGroupQuantity;j++){
                         Reduction(0);
@@ -144,13 +158,14 @@ float SymbolToFloat(char symbol,int valueStandard){
 
 }
 void ErrorRate(){
+
     for(int i=1;i<=reduction_data_quantity-2;i++){
         error_rate=error_rate+abs(original_data_array[i]-reduction_array[i]);
-        cout<<reduction_array[i]<<endl;
-
+        //cout<<reduction_array[i]<<endl;
     }
-
+    //debug
     cout<<"this error:"<<error_rate<<endl;
+   // error_rate=0;
     cout<<"this reduction_data_quantity:"<<reduction_data_quantity<<endl;
     cout<<"this original_data_quantity:"<<original_data_quantity<<endl;
 }
